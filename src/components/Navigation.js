@@ -1,9 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 
 function Navbar() {
 
-    const reloadData = () => {
+    const { loadData } = useAppContext();
 
+    const reloadData = () => {
+        loadData();
     }
 
     return (
@@ -30,7 +33,7 @@ function Navbar() {
                         <NavLink className="nav-link" to="/users">Users</NavLink>
                     </li>
                     <li className="nav-item">
-                        <button class="btn btn-sm btn-outline-success ms-2">Update</button>
+                        <button className="btn btn-sm btn-outline-success ms-2" onClick={reloadData}>Refresh</button>
                     </li>
                 </ul>
             </div>

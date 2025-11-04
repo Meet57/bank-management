@@ -8,6 +8,15 @@ export const AppProvider = ({ children }) => {
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const [modal, setModal] = useState({
+        isOpen: false,
+        title: "",
+        body: null,
+        size: "md",
+        primaryButtonText: "Save changes",
+        primaryButtonAction: null,
+    });
+
     const loadData = async () => {
         try {
             setLoading(true);
@@ -40,8 +49,69 @@ export const AppProvider = ({ children }) => {
         return api.put(`/customers/${id}`, data);
     }
 
+    const getAccount = (id) => {
+        return api.get(`/accounts/${id}`);
+    };
+
+    const removeAccount = (id) => {
+        return api.delete(`/accounts/${id}`);
+    };
+
+    const createAccount = (data) => {
+        return api.post("/accounts", data);
+    };
+
+    const updateAccount = (id, data) => {
+        return api.put(`/accounts/${id}`, data);
+    }
+
+    const openModal = ({
+        title = "",
+        body = null,
+        size = "md",
+        primaryButtonText = "Save changes",
+        primaryButtonAction = null,
+    }) => {
+        setModal({
+            isOpen: true,
+            title,
+            body,
+            size,
+            primaryButtonText,
+            primaryButtonAction,
+        });
+    };
+
+    const closeModal = () => {
+        setModal({
+            isOpen: false,
+            title: "",
+            body: null,
+            size: "md",
+            primaryButtonText: "Save changes",
+            primaryButtonAction: null,
+        });
+    };
+
+
     return (
-        <AppContext.Provider value={{ customers, accounts, loadData, createUser, removeUser, getUser, updateUser, loading }}>
+        <AppContext.Provider value={{
+            loading,
+            customers,
+            accounts,
+            modal,
+            openModal,
+            closeModal,
+            loadData,
+            createUser,
+            removeUser,
+            getUser,
+            updateUser,
+            removeAccount,
+            getAccount,
+            createAccount,
+            updateAccount
+        }}>
             {children}
         </AppContext.Provider>
     );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from "../context/AppContext";
 import { useNavigate, useParams } from 'react-router-dom';
 
-const CreateUser = () => {
+const UserForm = () => {
     const { id } = useParams();
     const { createUser, getUser, updateUser } = useAppContext();
     const [isEditMode, setIsEditMode] = useState(false);
@@ -78,7 +78,9 @@ const CreateUser = () => {
         <div className="container mt-5">
             <div className="card shadow-sm">
                 <div className="card-body">
-                    <h3 className="card-title mb-4 text-center">Create New User</h3>
+                    <h3 className="card-title mb-4 text-center">
+                        {isEditMode ? 'Edit User' : 'Create New User'}
+                    </h3>
 
                     {message && <div className="alert alert-success">{message}</div>}
                     {error && <div className="alert alert-danger">{error}</div>}
@@ -174,7 +176,7 @@ const CreateUser = () => {
                                 className="btn btn-primary btn-lg"
                                 disabled={loading}
                             >
-                                {loading ? 'Creating...' : 'Create User'}
+                                {loading ? 'Creating...' : isEditMode ? 'Update User' : 'Create User'}
                             </button>
                         </div>
                     </form>
@@ -184,4 +186,4 @@ const CreateUser = () => {
     );
 };
 
-export default CreateUser;
+export default UserForm;

@@ -1,12 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { useAppContext } from "../context/AppContext";
+import { Link } from "react-router-dom";
 
 const AccountsPage = () => {
-    const { accounts, customers, loadData, loading } = useAppContext();
+    const { accounts, customers, loading, removeAccount, openModal } = useAppContext();
 
-    useEffect(() => {
-        loadData();
-    }, []);
 
     const customerMap = useMemo(() => {
         const map = {};
@@ -14,11 +12,32 @@ const AccountsPage = () => {
         return map;
     }, [customers]);
 
+    const handleDelete = (accountId) => {
+        openModal({
+            title: "Confirm Deletion",
+            body: <p>Are you sure you want to delete account ID {accountId}?</p>,
+            primaryButtonText: "Delete",
+            primaryButtonAction: () => {
+                removeAccount(accountId)
+                    .then(() => {
+                        loadData();
+                    }
+                    )
+                    .catch((error) => {
+                        console.error("Error deleting account:", error);
+                        alert("Failed to delete account.");
+                    });
+            },
+        });
+    }
+
     return (
         <div className="container mt-4">
             <div className="d-flex align-items-center justify-content-between mb-3">
                 <h2 className="mb-0">Bank Accounts</h2>
-                <button className="btn btn-outline-primary">Create Account</button>
+                <Link to="/create-account">
+                    <button className="btn btn-outline-primary">Create Account</button>
+                </Link>
             </div>
 
             {loading ? (
@@ -40,6 +59,7 @@ const AccountsPage = () => {
                             <th>Balance</th>
                             <th>Interest Rate</th>
                             <th>Next Check #</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,6 +83,12 @@ const AccountsPage = () => {
                                     <td>${acc.balance.toLocaleString()}</td>
                                     <td>{acc.interestRate ?? "-"}</td>
                                     <td>{acc.nextCheckNumber ?? "-"}</td>
+                                    <td>
+                                        <Link to={`/edit-account/${acc.accountId}`}>
+                                            <button className="btn btn-sm btn-outline-success me-2">Edit</button>
+                                        </Link>
+                                        <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(acc.accountId)}>Delete</button>
+                                    </td>
                                 </tr>
                             );
                         })}

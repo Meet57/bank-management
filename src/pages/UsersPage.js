@@ -3,22 +3,36 @@ import { useAppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 
 const UsersPage = () => {
-    const { customers, loadData, loading, removeUser } = useAppContext();
-
-    useEffect(() => {
-        loadData();
-    }, []);
+    const { customers, loading, removeUser, openModal } = useAppContext();
 
     const handleRemoveUser = (id) => {
-        removeUser(id)
-            .then(() => {
-                alert("User deleted successfully");
-                loadData();
-            })
-            .catch((error) => {
-                console.error("Error deleting user:", error);
-                alert("Failed to delete user");
-            });
+        openModal({
+            title: "Confirm Deletion",
+            body: <p>Are you sure you want to delete this user with Customer ID {id}?</p>,
+            primaryButtonText: "Delete",
+            primaryButtonAction: () => {
+                removeUser(id)
+                    .then(() => {
+                        loadData();
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting user:", error);
+                        alert("Failed to delete user.");
+                    });
+            },
+        });
+
+        // if (window.confirm("Are you sure you want to delete this user?")) {
+        //     removeUser(id)
+        //         .then(() => {
+        //             alert("User deleted successfully.");
+        //             loadData();
+        //         })
+        //         .catch((error) => {
+        //             console.error("Error deleting user:", error);
+        //             alert("Failed to delete user.");
+        //         });
+        // }
     };
 
     return (
