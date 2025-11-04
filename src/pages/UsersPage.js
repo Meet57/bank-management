@@ -3,7 +3,7 @@ import { useAppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 
 const UsersPage = () => {
-    const { customers, loading, removeUser, openModal } = useAppContext();
+    const { customers, loading, removeUser, openModal, loadData } = useAppContext();
 
     const handleRemoveUser = (id) => {
         openModal({

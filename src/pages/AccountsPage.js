@@ -3,7 +3,7 @@ import { useAppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 
 const AccountsPage = () => {
-    const { accounts, customers, loading, removeAccount, openModal } = useAppContext();
+    const { accounts, customers, loading, removeAccount, openModal, loadData } = useAppContext();
 
 
     const customerMap = useMemo(() => {
