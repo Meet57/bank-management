@@ -4,14 +4,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const AccountForm = () => {
     const { id } = useParams();
-    const { createAccount, updateAccount, getAccount, customers } = useAppContext();
+    const { createAccount, updateAccount, getAccount, customers, loadData } = useAppContext();
     const [isEditMode, setIsEditMode] = useState(false);
     const [form, setForm] = useState({
         customerId: '',
         accountType: '',
-        balance: '0',
-        interestRate: '0',
-        nextCheckNumber: '0',
+        balance: null
     });
 
     const [message, setMessage] = useState('');
@@ -26,13 +24,13 @@ const AccountForm = () => {
             getAccount(id)
                 .then((res) => {
                     const account = res.data;
-                    const type = account.interestRate ? 'checkings' : 'savings';
+                    const type = account.interestRate ? 'savings' : 'checkings';
                     const customer = customers.find(c => c.accounts.find(a => a.accountId === account.accountId))?.customerId || '';
                     setForm({
                         customerId: customer || '',
                         accountType: type,
-                        balance: account.balance || '0',
-                        interestRate: account.interestRate || '0',
+                        balance: account.balance || '0.00',
+                        interestRate: account.interestRate || '0.00',
                         nextCheckNumber: account.nextCheckNumber || '0',
                     });
                 })
@@ -40,7 +38,7 @@ const AccountForm = () => {
                     setError(err.response?.data?.errors[0]?.defaultMessage || 'Error fetching account data. Please try again.');
                 });
         }
-    }, [id]);
+    }, [id, getAccount, customers]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -64,6 +62,7 @@ const AccountForm = () => {
             }
 
             setTimeout(() => {
+                loadData();
                 navigate('/accounts');
             }, 2000);
         } catch (err) {
@@ -123,7 +122,7 @@ const AccountForm = () => {
                                 </select>
                             </div>
 
-                            {form.accountType === 'checkings' && (
+                            {form.accountType === 'savings' && (
                                 <div className="col-md-6">
                                     <label htmlFor="interestRate" className="form-label">Interest Rate</label>
                                     <input
@@ -141,7 +140,7 @@ const AccountForm = () => {
                                 </div>
                             )}
 
-                            {form.accountType === 'savings' && (
+                            {form.accountType === 'checkings' && (
                                 <div className="col-md-6">
                                     <label htmlFor="nextCheckNumber" className="form-label">Next Check Number</label>
                                     <input

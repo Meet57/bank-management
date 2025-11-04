@@ -1,16 +1,9 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import { useAppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 
 const AccountsPage = () => {
     const { accounts, customers, loading, removeAccount, openModal, loadData } = useAppContext();
-
-
-    const customerMap = useMemo(() => {
-        const map = {};
-        customers.forEach((c) => (map[c.customerId] = c.name));
-        return map;
-    }, [customers]);
 
     const handleDelete = (accountId) => {
         openModal({

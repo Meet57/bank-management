@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const UserForm = () => {
     const { id } = useParams();
-    const { createUser, getUser, updateUser } = useAppContext();
+    const { createUser, getUser, updateUser, loadData } = useAppContext();
     const [isEditMode, setIsEditMode] = useState(false);
     const [form, setForm] = useState({
         name: '',
@@ -40,7 +40,7 @@ const UserForm = () => {
                     setError('Error fetching user data. Please try again.');
                 });
         }
-    }, [id]);
+    }, [id, getUser]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -65,6 +65,7 @@ const UserForm = () => {
 
             // Navigate to users page after 2 seconds
             setTimeout(() => {
+                loadData();
                 navigate('/users');
             }, 2000);
         } catch (err) {
@@ -136,7 +137,12 @@ const UserForm = () => {
                                     type="text"
                                     name="postalCode"
                                     value={form.postalCode}
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange({
+                                        target: {
+                                            name: e.target.name,
+                                            value: e.target.value.toUpperCase(),
+                                        },
+                                    })}
                                     className="form-control"
                                     placeholder="A1B 2C3"
                                     required
@@ -162,7 +168,12 @@ const UserForm = () => {
                                     type="text"
                                     name="province"
                                     value={form.province}
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange({
+                                        target: {
+                                            name: e.target.name,
+                                            value: e.target.value.toUpperCase(),
+                                        },
+                                    })}
                                     className="form-control"
                                     placeholder="Province"
                                     required
