@@ -7,6 +7,7 @@ import UserForm from "./pages/UserForm";
 import { AppProvider } from "./context/AppContext";
 import AccountForm from "./pages/AccountForm";
 import DynamicModal from "./components/DynamicModal";
+import AccountsPagePagination from "./pages/AccountsPagePagination";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/accounts" element={<AccountsPage />} />
+              <Route path="/accountsPaged" element={<AccountsPagePagination />} />
               <Route path="/users" element={<UsersPage />} />
               <Route path="/create-user" element={<UserForm />} />
               <Route path="/edit-user/:id" element={<UserForm />} />

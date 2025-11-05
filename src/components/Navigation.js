@@ -30,6 +30,9 @@ function Navbar() {
                         <NavLink className="nav-link" to="/accounts">Accounts</NavLink>
                     </li>
                     <li className="nav-item">
+                        <NavLink className="nav-link" to="/accountsPaged">Paged Accounts</NavLink>
+                    </li>
+                    <li className="nav-item">
                         <NavLink className="nav-link" to="/users">Users</NavLink>
                     </li>
                     <li className="nav-item my-auto">

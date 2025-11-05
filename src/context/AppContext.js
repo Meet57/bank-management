@@ -17,6 +17,14 @@ export const AppProvider = ({ children }) => {
         primaryButtonAction: null,
     });
 
+    const [pagedAccounts, setPagedAccounts] = useState({
+        content: [],
+        totalPages: 0,
+        totalElements: 0,
+        number: 0,
+        size: 10,
+    });
+
     const loadData = async () => {
         try {
             setLoading(true);
@@ -28,6 +36,18 @@ export const AppProvider = ({ children }) => {
             setAccounts(accRes.data);
         } catch (error) {
             console.error("Error loading data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const loadAccountsPagination = async (page = 0, size = 5) => {
+        try {
+            setLoading(true);
+            const response = await api.get(`/accounts/pagination?page=${page}&size=${size}`);
+            setPagedAccounts(response.data);
+        } catch (error) {
+            console.error("Error fetching paginated accounts:", error);
         } finally {
             setLoading(false);
         }
@@ -101,6 +121,8 @@ export const AppProvider = ({ children }) => {
             accounts,
             modal,
             openModal,
+            pagedAccounts,
+            loadAccountsPagination,
             closeModal,
             loadData,
             createUser,
