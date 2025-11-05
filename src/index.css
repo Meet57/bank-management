@@ -1,26 +1,28 @@
-/* Change default pagination link color (text, background, border) */
+/* Accounts Pagination Styling */
+.pagination {
+  color: black; /* Text color for pagination */
+}
+
 .pagination .page-link {
-  color: #000000; /* Black text for contrast */
-  border-color: #000000; /* Black border */
+  color: black; /* Text color for page links */
+  background-color: white; /* Background color of buttons */
+  border-color: black; /* Border color of buttons */
 }
 
-/* Change color when hovering over pagination links */
 .pagination .page-link:hover {
-  color: #eee; /* Lighter text on hover */
-  background-color: #333; /* Darker background on hover */
-  border-color: #333;
+  background-color: #f0f0f0; /* Slight hover effect */
+  color: black;
 }
 
-/* Style for the active pagination item */
 .pagination .page-item.active .page-link {
-  color: #fff; /* White text for active page */
-  background-color: #000; /* Black background for active page */
-  border-color: #000; /* Black border for active page */
+  background-color: black; /* Active page background */
+  color: white; /* Active page text color */
+  border-color: black;
 }
 
-/* Style for disabled pagination items */
 .pagination .page-item.disabled .page-link {
-  color: #ccc; /* Light gray text for disabled items */
-  background-color: #000; /* Black background for disabled items */
-  border-color: #000;
+  color: #888888; /* Disabled page text color */
+  pointer-events: none;
+  background-color: #f9f9f9;
+  border-color: #ddd;
 }

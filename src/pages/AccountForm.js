@@ -52,6 +52,12 @@ const AccountForm = () => {
         setError('');
         setLoading(true);
 
+        if (!form.customerId || !form.accountType || form.balance === null) {
+            setError('Please fill in all required fields.');
+            setLoading(false);
+            return;
+        }
+
         try {
             if (isEditMode) {
                 const res = await updateAccount(id, form);
@@ -94,7 +100,6 @@ const AccountForm = () => {
                                     onChange={handleChange}
                                     className="form-select"
                                     disabled={isEditMode}
-                                    required
                                 >
                                     <option value="">Select a customer</option>
                                     {customers.map((customer) => (
@@ -113,7 +118,6 @@ const AccountForm = () => {
                                     value={form.accountType}
                                     onChange={handleChange}
                                     className="form-select"
-                                    required
                                     disabled={isEditMode}
                                 >
                                     <option value="">Select account type</option>
@@ -135,7 +139,6 @@ const AccountForm = () => {
                                         placeholder="Enter interest rate"
                                         step="0.01"
                                         min="0"
-                                        required
                                     />
                                 </div>
                             )}
@@ -152,7 +155,6 @@ const AccountForm = () => {
                                         className="form-control"
                                         placeholder="Enter next check number"
                                         min="0"
-                                        required
                                     />
                                 </div>
                             )}
@@ -168,7 +170,6 @@ const AccountForm = () => {
                                     className="form-control"
                                     placeholder="Enter balance"
                                     step="0.01"
-                                    required
                                 />
                             </div>
 

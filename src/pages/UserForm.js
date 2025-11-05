@@ -54,6 +54,18 @@ const UserForm = () => {
         setError('');
         setLoading(true);
 
+        if (!form.name || !form.customerType || !form.streetNumber || !form.postalCode || !form.city || !form.province) {
+            setError('Please fill in all required fields.');
+            setLoading(false);
+            return;
+        }
+
+        if(form.postalCode.length < 6) {
+            setError('Postal Code must be at least 6 characters long.');
+            setLoading(false);
+            return;
+        }
+
         try {
             if (isEditMode) {
                 const res = await updateUser(id, form);
@@ -97,7 +109,7 @@ const UserForm = () => {
                                     onChange={handleChange}
                                     className="form-control"
                                     placeholder="Enter full name"
-                                    required
+                                    
                                 />
                             </div>
 
@@ -109,7 +121,7 @@ const UserForm = () => {
                                     onChange={handleChange}
                                     className="form-select"
                                     disabled={isEditMode}
-                                    required
+                                    
                                 >
                                     <option value="">Select type</option>
                                     <option value="person">Person</option>
@@ -127,7 +139,7 @@ const UserForm = () => {
                                     className="form-control"
                                     placeholder="123 Main St"
                                     disabled={isEditMode}
-                                    required
+                                    
                                 />
                             </div>
 
@@ -145,7 +157,7 @@ const UserForm = () => {
                                     })}
                                     className="form-control"
                                     placeholder="A1B 2C3"
-                                    required
+                                    
                                 />
                             </div>
 
@@ -158,7 +170,7 @@ const UserForm = () => {
                                     onChange={handleChange}
                                     className="form-control"
                                     placeholder="City"
-                                    required
+                                    
                                 />
                             </div>
 
@@ -176,7 +188,7 @@ const UserForm = () => {
                                     })}
                                     className="form-control"
                                     placeholder="Province"
-                                    required
+                                    
                                 />
                             </div>
                         </div>
